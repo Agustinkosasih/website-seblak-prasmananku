@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Seblak Nyelekit – Prasmanan Pedas Nampol</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@400;500;600&family=Caveat:wght@600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --red: #C0392B; --red-dark: #922B21; --orange: #E67E22;
+    --cream: #FAF3E0; --cream-dark: #F0E6C8; --dark: #1C1C1C;
+    --dark-muted: #3D3D3D; --green: #2E7D32; --white: #FFFFFF;
+  }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Inter', sans-serif; background: var(--cream); color: var(--dark); overflow-x: hidden; }
+
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(28,28,28,0.95); backdrop-filter: blur(8px);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 2rem; height: 60px;
+  }
+  .nav-logo { font-family: 'Caveat', cursive; font-size: 1.5rem; color: var(--orange); }
+  .nav-links { display: flex; gap: 1.5rem; }
+  .nav-links a { color: #ccc; text-decoration: none; font-size: 0.85rem; font-weight: 500; transition: color 0.2s; }
+  .nav-links a:hover { color: var(--orange); }
+  .nav-cta { background: var(--red); color: var(--white); padding: 0.45rem 1.2rem; border-radius: 4px; font-size: 0.85rem; font-weight: 600; text-decoration: none; transition: background 0.2s; }
+  .nav-cta:hover { background: var(--red-dark); color: var(--white); }
+
+  .hero {
+    min-height: 100vh; background: var(--dark);
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    text-align: center; position: relative; overflow: hidden; padding: 2rem;
+  }
+  .hero-bg-pattern {
+    position: absolute; inset: 0;
+    background-image: radial-gradient(circle at 20% 50%, rgba(192,57,43,0.15) 0%, transparent 50%),
+                      radial-gradient(circle at 80% 30%, rgba(230,126,34,0.10) 0%, transparent 40%);
+    pointer-events: none;
+  }
+  .hero-tag { font-family: 'Caveat', cursive; font-size: 1.1rem; color: var(--orange); letter-spacing: 2px; margin-bottom: 1rem; position: relative; z-index: 1; }
+  .hero h1 { font-family: 'Playfair Display', serif; font-size: clamp(3rem, 8vw, 6rem); font-weight: 900; color: var(--white); line-height: 1.05; position: relative; z-index: 1; }
+  .hero h1 span { color: var(--red); }
+  .hero-sub { margin-top: 1.25rem; font-size: 1.05rem; color: #aaa; max-width: 480px; line-height: 1.6; position: relative; z-index: 1; }
+  .hero-btns { margin-top: 2rem; display: flex; gap: 1rem; flex-wrap: wrap; justify-content: center; position: relative; z-index: 1; }
+  .btn-primary { background: var(--red); color: var(--white); padding: 0.85rem 2rem; border-radius: 4px; font-weight: 600; font-size: 1rem; text-decoration: none; transition: background 0.2s, transform 0.15s; display: inline-block; }
+  .btn-primary:hover { background: var(--red-dark); transform: translateY(-2px); }
+  .btn-outline { background: transparent; color: var(--white); border: 1.5px solid rgba(255,255,255,0.3); padding: 0.85rem 2rem; border-radius: 4px; font-weight: 500; font-size: 1rem; text-decoration: none; transition: border-color 0.2s, transform 0.15s; display: inline-block; }
+  .btn-outline:hover { border-color: var(--orange); color: var(--orange); transform: translateY(-2px); }
+
+  .steam-wrap { position: relative; z-index: 1; margin-top: 2.5rem; }
+  .bowl-emoji { font-size: 4rem; display: block; animation: bowlFloat 3s ease-in-out infinite; }
+  @keyframes bowlFloat { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+  .steam { display: flex; justify-content: center; gap: 12px; margin-bottom: 4px; }
+  .steam-line { width: 3px; height: 30px; background: rgba(255,255,255,0.25); border-radius: 2px; animation: steamRise 2s ease-in-out infinite; transform-origin: bottom; }
+  .steam-line:nth-child(2) { animation-delay: 0.4s; height: 22px; }
+  .steam-line:nth-child(3) { animation-delay: 0.8s; height: 26px; }
+  @keyframes steamRise { 0%{transform:scaleY(0) translateY(0);opacity:0} 40%{opacity:1} 100%{transform:scaleY(1) translateY(-10px);opacity:0} }
+  .hero-scroll { position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%); z-index: 1; }
+  .hero-scroll span { display: block; width: 1.5px; height: 40px; background: rgba(255,255,255,0.2); margin: 0 auto; animation: scrollPulse 1.5s ease-in-out infinite; }
+  @keyframes scrollPulse { 0%,100%{opacity:0.2} 50%{opacity:0.6} }
+
+  .tagline-strip { background: var(--red); padding: 0.75rem 0; overflow: hidden; }
+  .tagline-inner { display: flex; gap: 3rem; white-space: nowrap; animation: marquee 18s linear infinite; }
+  .tagline-inner span { font-family: 'Caveat', cursive; font-size: 1.1rem; color: var(--white); letter-spacing: 1px; flex-shrink: 0; }
+  @keyframes marquee { 0%{transform:translateX(0)} 100%{transform:translateX(-50%)} }
+
+  section { padding: 5rem 2rem; }
+  .section-label { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 3px; color: var(--red); margin-bottom: 0.5rem; }
+  .section-title { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 4vw, 3rem); font-weight: 700; line-height: 1.15; }
+  .section-sub { margin-top: 0.75rem; color: var(--dark-muted); font-size: 1rem; line-height: 1.6; }
+  .container { max-width: 1100px; margin: 0 auto; }
+
+  .prasmanan-section { background: var(--white); }
+  .steps-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.5rem; margin-top: 3rem; }
+  .step-card { background: var(--cream); border-radius: 8px; padding: 1.75rem 1.5rem; border: 1px solid var(--cream-dark); }
+  .step-num { font-family: 'Playfair Display', serif; font-size: 3.5rem; font-weight: 900; color: var(--cream-dark); line-height: 1; margin-bottom: 0.5rem; }
+  .step-card h3 { font-size: 1rem; font-weight: 600; margin-bottom: 0.4rem; }
+  .step-card p { font-size: 0.9rem; color: var(--dark-muted); line-height: 1.5; }
+  .step-icon { font-size: 1.75rem; margin-bottom: 0.5rem; }
+
+  .menu-section { background: var(--dark); }
+  .menu-tabs { display: flex; gap: 0.5rem; flex-wrap: wrap; margin: 2rem 0; }
+  .tab-btn { background: transparent; border: 1.5px solid rgba(255,255,255,0.2); color: #aaa; padding: 0.5rem 1.25rem; border-radius: 4px; font-size: 0.9rem; font-weight: 500; cursor: pointer; transition: all 0.2s; }
+  .tab-btn:hover, .tab-btn.active { background: var(--red); border-color: var(--red); color: var(--white); }
+  .menu-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 1.25rem; }
+  .menu-card { background: #262626; border-radius: 8px; overflow: hidden; border: 1px solid #333; transition: transform 0.2s, border-color 0.2s; }
+  .menu-card:hover { transform: translateY(-4px); border-color: var(--red); }
+  .menu-card-img { width: 100%; height: 140px; display: flex; align-items: center; justify-content: center; font-size: 3.5rem; background: #1a1a1a; }
+  .menu-card-body { padding: 1rem; }
+  .menu-card h3 { font-size: 0.95rem; font-weight: 600; color: var(--white); margin-bottom: 0.3rem; }
+  .menu-card p { font-size: 0.8rem; color: #888; line-height: 1.4; margin-bottom: 0.75rem; }
+  .menu-card-footer { display: flex; justify-content: space-between; align-items: center; }
+  .menu-price { font-size: 0.95rem; font-weight: 600; color: var(--orange); }
+  .menu-badge { font-size: 0.7rem; padding: 0.2rem 0.6rem; border-radius: 3px; font-weight: 600; }
+  .badge-hot { background: rgba(192,57,43,0.2); color: #ff7675; }
+  .badge-new { background: rgba(46,125,50,0.2); color: #55efc4; }
+  .badge-fav { background: rgba(230,126,34,0.2); color: var(--orange); }
+
+  .pedas-section { background: var(--cream); }
+  .pedas-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 1rem; margin-top: 2.5rem; }
+  .pedas-card { background: var(--white); border-radius: 8px; padding: 1.5rem 1rem; text-align: center; border: 2px solid transparent; transition: border-color 0.2s, transform 0.15s; }
+  .pedas-card:hover { transform: translateY(-3px); }
+  .pedas-card.l1{border-color:#f39c12} .pedas-card.l2{border-color:#e67e22} .pedas-card.l3{border-color:#d35400} .pedas-card.l4{border-color:#c0392b} .pedas-card.l5{border-color:#922b21}
+  .pedas-emoji { font-size: 2rem; margin-bottom: 0.5rem; }
+  .pedas-card h3 { font-size: 0.9rem; font-weight: 600; margin-bottom: 0.25rem; }
+  .pedas-card p { font-size: 0.78rem; color: var(--dark-muted); }
+
+  .builder-section { background: var(--white); }
+  .builder-layout { display: grid; grid-template-columns: 1fr 340px; gap: 2.5rem; margin-top: 2.5rem; align-items: start; }
+  .topping-groups { display: flex; flex-direction: column; gap: 1.5rem; }
+  .topping-group h4 { font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 2px; color: var(--red); margin-bottom: 0.75rem; }
+  .topping-list { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+  .topping-chip { background: var(--cream); border: 1.5px solid var(--cream-dark); padding: 0.45rem 1rem; border-radius: 4px; font-size: 0.85rem; cursor: pointer; transition: all 0.15s; user-select: none; }
+  .topping-chip:hover { border-color: var(--orange); color: var(--orange); }
+  .topping-chip.selected { background: var(--red); border-color: var(--red); color: var(--white); }
+  .order-summary { background: var(--dark); border-radius: 8px; padding: 1.75rem; position: sticky; top: 80px; }
+  .order-summary h3 { font-family: 'Playfair Display', serif; font-size: 1.3rem; color: var(--white); margin-bottom: 1.25rem; padding-bottom: 0.75rem; border-bottom: 1px solid #333; }
+  .order-item { display: flex; justify-content: space-between; margin-bottom: 0.6rem; }
+  .order-item span { font-size: 0.85rem; color: #aaa; }
+  .order-item strong { font-size: 0.85rem; color: var(--white); font-weight: 500; }
+  .order-topping-list { min-height: 60px; margin-bottom: 1.25rem; }
+  .order-topping-tag { display: inline-block; background: #333; color: #ccc; font-size: 0.75rem; padding: 0.2rem 0.6rem; border-radius: 3px; margin: 2px; }
+  .order-empty { color: #555; font-size: 0.85rem; font-style: italic; }
+  .order-divider { border: none; border-top: 1px solid #333; margin: 1rem 0; }
+  .order-total { display: flex; justify-content: space-between; align-items: baseline; }
+  .order-total span { color: #aaa; font-size: 0.85rem; }
+  .order-total strong { color: var(--orange); font-size: 1.25rem; font-weight: 600; }
+  .order-btn { width: 100%; background: var(--red); color: var(--white); border: none; padding: 0.85rem; border-radius: 4px; font-size: 1rem; font-weight: 600; cursor: pointer; margin-top: 1rem; transition: background 0.2s; }
+  .order-btn:hover { background: var(--red-dark); }
+  .order-method-group { margin-top: 1.25rem; }
+  .order-method-label { font-size: 0.75rem; color: #888; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 0.6rem; display: block; }
+  .method-btns { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.4rem; }
+  .method-btn { background: #2a2a2a; border: 1.5px solid #3a3a3a; color: #aaa; padding: 0.55rem 0.4rem; border-radius: 4px; font-size: 0.78rem; font-weight: 500; cursor: pointer; text-align: center; transition: all 0.15s; line-height: 1.3; }
+  .method-btn:hover { border-color: var(--orange); color: var(--orange); }
+  .method-btn.active { background: rgba(192,57,43,0.15); border-color: var(--red); color: var(--white); }
+  .method-btn .method-icon { font-size: 1.1rem; display: block; margin-bottom: 2px; }
+  .method-extra { margin-top: 0.75rem; display: none; }
+  .method-extra.visible { display: block; }
+  .method-extra input, .method-extra select, .method-extra textarea { width: 100%; padding: 0.6rem 0.75rem; border-radius: 4px; border: 1px solid #444; background: #2a2a2a; color: #eee; font-size: 0.85rem; margin-bottom: 0.5rem; outline: none; font-family: inherit; }
+  .method-extra textarea { resize: none; height: 70px; }
+  .method-extra input::placeholder, .method-extra textarea::placeholder { color: #555; }
+  .method-note { font-size: 0.75rem; color: #666; margin-bottom: 0.25rem; }
+
+  .order-method-group { margin-top: 1.25rem; }
+  .order-method-label { font-size: 0.75rem; color: #888; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 0.6rem; display: block; }
+  .method-btns { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.4rem; }
+  .method-btn {
+    background: #2a2a2a; border: 1.5px solid #3a3a3a;
+    color: #aaa; padding: 0.55rem 0.4rem; border-radius: 4px;
+    font-size: 0.78rem; font-weight: 500; cursor: pointer;
+    text-align: center; transition: all 0.15s; line-height: 1.3;
+  }
+  .method-btn:hover { border-color: var(--orange); color: var(--orange); }
+  .method-btn.active { background: rgba(192,57,43,0.15); border-color: var(--red); color: var(--white); }
+  .method-btn .method-icon { font-size: 1.1rem; display: block; margin-bottom: 2px; }
+  .method-extra { margin-top: 0.75rem; display: none; }
+  .method-extra.visible { display: block; }
+  .method-extra input, .method-extra select, .method-extra textarea {
+    width: 100%; padding: 0.6rem 0.75rem; border-radius: 4px;
+    border: 1px solid #444; background: #2a2a2a; color: #eee;
+    font-size: 0.85rem; margin-bottom: 0.5rem; outline: none;
+    font-family: 'Inter', sans-serif;
+  }
+  .method-extra textarea { resize: none; height: 70px; }
+  .method-extra input::placeholder, .method-extra textarea::placeholder { color: #555; }
+  .method-note { font-size: 0.75rem; color: #666; margin-top: -0.25rem; margin-bottom: 0.5rem; }
+
+  .promo-section { background: var(--red); padding: 4rem 2rem; }
+  .promo-inner { max-width: 700px; margin: 0 auto; text-align: center; }
+  .promo-inner h2 { font-family: 'Playfair Display', serif; font-size: clamp(1.75rem, 4vw, 2.5rem); color: var(--white); font-weight: 700; margin-bottom: 0.75rem; }
+  .promo-inner p { color: rgba(255,255,255,0.8); margin-bottom: 1.5rem; line-height: 1.6; }
+  .promo-form { display: flex; gap: 0.5rem; max-width: 440px; margin: 0 auto; }
+  .promo-form input { flex: 1; padding: 0.8rem 1rem; border-radius: 4px; border: none; font-size: 0.95rem; outline: none; background: rgba(255,255,255,0.95); }
+  .promo-form button { background: var(--dark); color: var(--white); border: none; padding: 0.8rem 1.5rem; border-radius: 4px; font-weight: 600; font-size: 0.9rem; cursor: pointer; white-space: nowrap; transition: background 0.2s; }
+  .promo-form button:hover { background: #333; }
+
+  .location-section { background: var(--cream); }
+  .location-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; margin-top: 2.5rem; align-items: start; }
+  .loc-detail { display: flex; gap: 0.75rem; margin-top: 1rem; }
+  .loc-detail-icon { font-size: 1.25rem; flex-shrink: 0; margin-top: 2px; }
+  .loc-detail-text h4 { font-size: 0.85rem; font-weight: 600; margin-bottom: 0.2rem; }
+  .loc-detail-text p { font-size: 0.85rem; color: var(--dark-muted); }
+  .map-placeholder { background: var(--cream-dark); border-radius: 8px; height: 280px; display: flex; flex-direction: column; align-items: center; justify-content: center; border: 1px solid #ddd; gap: 0.75rem; }
+  .map-placeholder span { font-size: 2.5rem; }
+  .map-placeholder p { font-size: 0.85rem; color: var(--dark-muted); }
+  .map-btn { background: var(--dark); color: var(--white); padding: 0.65rem 1.5rem; border-radius: 4px; text-decoration: none; font-size: 0.85rem; font-weight: 600; transition: background 0.2s; }
+  .map-btn:hover { background: var(--red); }
+
+  footer { background: #111; color: #888; padding: 3rem 2rem 2rem; text-align: center; }
+  .footer-logo { font-family: 'Caveat', cursive; font-size: 2rem; color: var(--orange); margin-bottom: 0.5rem; }
+  .footer-tagline { font-size: 0.85rem; margin-bottom: 1.5rem; }
+  .footer-links { display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap; margin-bottom: 2rem; }
+  .footer-links a { color: #666; text-decoration: none; font-size: 0.85rem; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--orange); }
+  .footer-copy { font-size: 0.8rem; color: #444; }
+
+  @media (max-width: 720px) {
+    .builder-layout { grid-template-columns: 1fr; }
+    .location-grid { grid-template-columns: 1fr; }
+    .nav-links { display: none; }
+    .promo-form { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">🌶 Seblak Nyelekit</div>
+  <div class="nav-links">
+    <a href="#menu">Menu</a>
+    <a href="#prasmanan">Cara Prasmanan</a>
+    <a href="#pesan">Pesan</a>
+    <a href="#lokasi">Lokasi</a>
+  </div>
+  <a href="#pesan" class="nav-cta">Pesan Sekarang</a>
+</nav>
+
+<section class="hero">
+  <div class="hero-bg-pattern"></div>
+  <div class="hero-tag">🔥 Prasmanan Seblak Terenak se-Cikarang</div>
+  <h1>Nampol.<br><span>Nylekit.</span><br>Nagih.</h1>
+  <p class="hero-sub">Pilih topping sendiri, level pedas sesuka hati. Seblak kuah kental yang bikin kalap dari pagi sampai malem.</p>
+  <div class="hero-btns">
+    <a href="#pesan" class="btn-primary">🔥 Bikin Seblakmu</a>
+    <a href="#menu" class="btn-outline">Lihat Menu</a>
+  </div>
+  <div class="steam-wrap">
+    <div class="steam">
+      <div class="steam-line"></div>
+      <div class="steam-line"></div>
+      <div class="steam-line"></div>
+    </div>
+    <span class="bowl-emoji">🍲</span>
+  </div>
+  <div class="hero-scroll"><span></span></div>
+</section>
+
+<div class="tagline-strip">
+  <div class="tagline-inner">
+    <span>🌶 Seblak Prasmanan</span><span>🍳 Topping Bebas Pilih</span>
+    <span>🔥 Level Pedas 1–5</span><span>🥚 Kuah Kencur Asli</span>
+    <span>🍢 Ceker Empuk</span><span>🌶 Buka Tiap Hari</span>
+    <span>🍜 Mie Kenyal Tebal</span><span>🥜 Bumbu Rahasia</span>
+    <span>🌶 Seblak Prasmanan</span><span>🍳 Topping Bebas Pilih</span>
+    <span>🔥 Level Pedas 1–5</span><span>🥚 Kuah Kencur Asli</span>
+    <span>🍢 Ceker Empuk</span><span>🌶 Buka Tiap Hari</span>
+    <span>🍜 Mie Kenyal Tebal</span><span>🥜 Bumbu Rahasia</span>
+  </div>
+</div>
+
+<section class="prasmanan-section" id="prasmanan">
+  <div class="container">
+    <div class="section-label">Cara Order</div>
+    <h2 class="section-title">Prasmanan Itu Mudah</h2>
+    <p class="section-sub">Empat langkah, langsung jadi seblak impianmu.</p>
+    <div class="steps-grid">
+      <div class="step-card">
+        <div class="step-num">01</div>
+        <div class="step-icon">🍜</div>
+        <h3>Pilih Base</h3>
+        <p>Kerupuk basah, mie, bihun, makaroni, atau campur semua. Bebas!</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">02</div>
+        <div class="step-icon">🍢</div>
+        <h3>Comot Topping</h3>
+        <p>Ceker, sosis, bakso, telur, sayur, seafood — comot sepuasnya di meja prasmanan.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">03</div>
+        <div class="step-icon">🌶</div>
+        <h3>Tentukan Level Pedas</h3>
+        <p>Level 1 sampai 5. Berani level 5? Kuah full cabe rawit tanpa ampun.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">04</div>
+        <div class="step-icon">🔥</div>
+        <h3>Tunggu & Nikmati</h3>
+        <p>Dimasak langsung di depanmu. Kuah kencur mendidih siap disantap panas-panas.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="menu-section" id="menu">
+  <div class="container">
+    <div class="section-label" style="color:var(--orange)">Menu Unggulan</div>
+    <h2 class="section-title" style="color:var(--white)">Pilihan Favorit Pelanggan</h2>
+    <p class="section-sub" style="color:#aaa">Dari paket hemat sampai edisi premium, semua ada.</p>
+    <div class="menu-tabs">
+      <button class="tab-btn active" onclick="filterMenu('semua', this)">Semua</button>
+      <button class="tab-btn" onclick="filterMenu('paket', this)">Paket Hemat</button>
+      <button class="tab-btn" onclick="filterMenu('premium', this)">Premium</button>
+      <button class="tab-btn" onclick="filterMenu('minuman', this)">Minuman</button>
+    </div>
+    <div class="menu-grid" id="menuGrid"></div>
+  </div>
+</section>
+
+<section class="pedas-section">
+  <div class="container">
+    <div class="section-label">Level Kepedasan</div>
+    <h2 class="section-title">Seberapa Berani Kamu?</h2>
+    <div class="pedas-grid">
+      <div class="pedas-card l1"><div class="pedas-emoji">😊</div><h3>Level 1</h3><p>Aman buat semua. Gurih sedikit hangat.</p></div>
+      <div class="pedas-card l2"><div class="pedas-emoji">😏</div><h3>Level 2</h3><p>Mulai kerasa nylekit. Enak buat sarapan.</p></div>
+      <div class="pedas-card l3"><div class="pedas-emoji">🥵</div><h3>Level 3</h3><p>Schweet! Keringetan tapi nagih banget.</p></div>
+      <div class="pedas-card l4"><div class="pedas-emoji">😤</div><h3>Level 4</h3><p>Mampus. Hidung meler, mata berair.</p></div>
+      <div class="pedas-card l5"><div class="pedas-emoji">💀</div><h3>Level 5</h3><p>Full rawit. Hanya untuk jiwa pemberani.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="builder-section" id="pesan">
+  <div class="container">
+    <div class="section-label">Buat Pesananmu</div>
+    <h2 class="section-title">Rakit Seblakmu Sendiri</h2>
+    <p class="section-sub">Klik topping yang kamu mau, lihat total harganya langsung.</p>
+    <div class="builder-layout">
+      <div class="topping-groups" id="toppingGroups"></div>
+      <div class="order-summary">
+        <h3>🛒 Ringkasan Pesanan</h3>
+        <div class="order-item"><span>Base Seblak</span><strong>Kerupuk Basah</strong></div>
+        <div class="order-item" id="levelDisplay"><span>Level Pedas</span><strong>—</strong></div>
+        <div style="margin: 1rem 0 0.5rem;"><span style="font-size:0.75rem;color:#888;font-weight:600;letter-spacing:1px;text-transform:uppercase;">Topping Dipilih</span></div>
+        <div class="order-topping-list" id="chosenToppings"><span class="order-empty">Belum ada topping dipilih</span></div>
+        <hr class="order-divider">
+        <div class="order-total"><span>Total Estimasi</span><strong id="totalPrice">Rp 15.000</strong></div>
+        <div style="margin-top:1.25rem;">
+          <select id="levelSelect" style="width:100%;padding:0.65rem;border-radius:4px;border:1px solid #444;background:#333;color:#fff;font-size:0.9rem;margin-bottom:0.5rem;">
+            <option value="">Pilih Level Pedas...</option>
+            <option value="1">Level 1 – Aman Jiwa</option>
+            <option value="2">Level 2 – Agak Pedas</option>
+            <option value="3">Level 3 – Pedas Nagih</option>
+            <option value="4">Level 4 – Mampus</option>
+            <option value="5">Level 5 – Jiwa Pemberani 💀</option>
+          </select>
+        </div>
+        <div class="order-method-group">
+          <span class="order-method-label">Cara Makan</span>
+          <div class="method-btns">
+            <button class="method-btn active" onclick="setMethod('dinein', this)">
+              <span class="method-icon">🪑</span>Dine In
+            </button>
+            <button class="method-btn" onclick="setMethod('delivery', this)">
+              <span class="method-icon">🛵</span>Delivery
+            </button>
+            <button class="method-btn" onclick="setMethod('takeaway', this)">
+              <span class="method-icon">🥡</span>Take Away
+            </button>
+          </div>
+
+          <div class="method-extra visible" id="extra-dinein">
+            <select id="dinein-meja">
+              <option value="">Pilih nomor meja...</option>
+              <option>Meja 1</option><option>Meja 2</option><option>Meja 3</option>
+              <option>Meja 4</option><option>Meja 5</option><option>Meja 6</option>
+              <option>Meja 7</option><option>Meja 8</option><option>Lesehan 1</option>
+              <option>Lesehan 2</option>
+            </select>
+            <input type="number" id="dinein-orang" placeholder="Jumlah orang (contoh: 2)" min="1" max="20">
+          </div>
+
+          <div class="method-extra" id="extra-delivery">
+            <input type="text" id="delivery-nama" placeholder="Nama pemesan">
+            <input type="tel" id="delivery-hp" placeholder="Nomor HP aktif">
+            <textarea id="delivery-alamat" placeholder="Alamat lengkap pengiriman..."></textarea>
+            <p class="method-note">⚡ Estimasi tiba 20–40 menit. Radius maks 5 km dari outlet.</p>
+          </div>
+
+          <div class="method-extra" id="extra-takeaway">
+            <input type="text" id="takeaway-nama" placeholder="Nama pemesan">
+            <input type="tel" id="takeaway-hp" placeholder="Nomor HP aktif">
+            <select id="takeaway-waktu">
+              <option value="">Waktu ambil...</option>
+              <option>Segera (±15 menit)</option>
+              <option>30 menit lagi</option>
+              <option>1 jam lagi</option>
+              <option>Hari ini malam</option>
+            </select>
+            <p class="method-note">📦 Pesanan dikemas rapi. Kuah terpisah agar tidak tumpah.</p>
+          </div>
+        </div>
+
+        <button class="order-btn" onclick="sendOrder()">🔥 Pesan via WhatsApp</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="promo-section">
+  <div class="promo-inner">
+    <h2>Daftar, Dapat Promo!</h2>
+    <p>Masukkan nomor HP kamu. Dapatkan notifikasi promo harian, diskon ulang tahun, dan info menu baru duluan.</p>
+    <div class="promo-form">
+      <input type="tel" placeholder="Nomor HP (contoh: 08123...)" id="promoInput">
+      <button onclick="submitPromo()">Daftar Gratis</button>
+    </div>
+    <p id="promoMsg" style="margin-top:1rem;color:rgba(255,255,255,0.9);font-size:0.9rem;display:none;"></p>
+  </div>
+</section>
+
+<section class="location-section" id="lokasi">
+  <div class="container">
+    <div class="section-label">Lokasi & Jam Buka</div>
+    <h2 class="section-title">Temukan Kami</h2>
+    <div class="location-grid">
+      <div>
+        <div class="loc-detail">
+          <div class="loc-detail-icon">📍</div>
+          <div class="loc-detail-text"><h4>Alamat</h4><p>Jl. Industri Raya No. 88, Cikarang Barat, Bekasi 17520<br>(Dekat Kawasan Industri MM2100)</p></div>
+        </div>
+        <div class="loc-detail" style="margin-top:1.25rem;">
+          <div class="loc-detail-icon">🕐</div>
+          <div class="loc-detail-text"><h4>Jam Buka</h4><p>Senin – Jumat: 06.00 – 21.00 WIB<br>Sabtu – Minggu: 07.00 – 22.00 WIB</p></div>
+        </div>
+        <div class="loc-detail" style="margin-top:1.25rem;">
+          <div class="loc-detail-icon">📱</div>
+          <div class="loc-detail-text"><h4>Kontak & Order</h4><p>WhatsApp: <a href="https://wa.me/6281234567890" style="color:var(--red);text-decoration:none;">0812-3456-7890</a><br>Instagram: <a href="#" style="color:var(--red);text-decoration:none;">@seblaknyelekit</a></p></div>
+        </div>
+        <div class="loc-detail" style="margin-top:1.25rem;">
+          <div class="loc-detail-icon">🏍</div>
+          <div class="loc-detail-text"><h4>Delivery</h4><p>Tersedia via GoFood & GrabFood. Radius 5 km dari outlet.</p></div>
+        </div>
+      </div>
+      <div>
+        <div class="map-placeholder">
+          <span>🗺</span>
+          <p>Cikarang Barat, Bekasi</p>
+          <a href="https://maps.google.com/?q=Cikarang+Barat+Bekasi" target="_blank" class="map-btn">Buka di Google Maps</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">🌶 Seblak Nyelekit</div>
+  <p class="footer-tagline">Prasmanan Seblak Terenak – Nampol, Nylekit, Nagih.</p>
+  <div class="footer-links">
+    <a href="#menu">Menu</a>
+    <a href="#prasmanan">Cara Prasmanan</a>
+    <a href="#pesan">Pesan</a>
+    <a href="#lokasi">Lokasi</a>
+    <a href="https://wa.me/6281234567890">WhatsApp</a>
+    <a href="#">Instagram</a>
+  </div>
+  <p class="footer-copy">© 2025 Seblak Nyelekit. Dibuat dengan 🔥 dan cinta.</p>
+</footer>
+
+<script>
+const menuItems = [
+  {id:1,name:"Seblak Original",desc:"Kerupuk basah kuah kencur, topping telur & daun bawang",price:15000,cat:"paket",icon:"🍲",badge:"fav",badgeText:"Favorit"},
+  {id:2,name:"Seblak Ceker",desc:"Paket dengan 4 ceker empuk, kuah meresap sampai ke tulang",price:20000,cat:"paket",icon:"🍗",badge:"hot",badgeText:"Terlaris"},
+  {id:3,name:"Seblak Mie Mix",desc:"Mie tebal + kerupuk + bihun, kuah double kencur",price:18000,cat:"paket",icon:"🍜",badge:"",badgeText:""},
+  {id:4,name:"Seblak Bakso Urat",desc:"Bakso urat sapi kenyal, kuah kaldu gurih berlimpah",price:22000,cat:"paket",icon:"🥩",badge:"hot",badgeText:"Hot"},
+  {id:5,name:"Seblak Royal",desc:"Ceker + udang + bakso + sosis + telur. All-in satu mangkok",price:38000,cat:"premium",icon:"👑",badge:"new",badgeText:"Baru"},
+  {id:6,name:"Seblak Seafood",desc:"Udang, cumi, dan kerang segar dalam kuah pedas gurih",price:35000,cat:"premium",icon:"🦐",badge:"new",badgeText:"Baru"},
+  {id:7,name:"Seblak Jumbo XXL",desc:"Porsi 2x lebih besar. Cocok buat yang lapar berat",price:42000,cat:"premium",icon:"🍱",badge:"hot",badgeText:"Hot"},
+  {id:8,name:"Es Teh Manis",desc:"Teh manis dingin segar, penawar pedas terbaik",price:5000,cat:"minuman",icon:"🧋",badge:"fav",badgeText:"Wajib"},
+  {id:9,name:"Es Jeruk Peras",desc:"Jeruk segar diperas langsung, tidak pakai sirup",price:8000,cat:"minuman",icon:"🍊",badge:"",badgeText:""},
+  {id:10,name:"Susu Murni Dingin",desc:"Susu full cream dingin, penawar pedas paling ampuh",price:10000,cat:"minuman",icon:"🥛",badge:"fav",badgeText:"Top"},
+];
+
+const toppingData = [
+  {group:"Protein",items:[
+    {name:"Ceker Ayam",price:5000},{name:"Bakso Sapi",price:4000},
+    {name:"Sosis Ayam",price:3000},{name:"Telur Puyuh",price:3000},
+    {name:"Udang",price:8000},{name:"Cumi-cumi",price:8000},{name:"Telur Mata Sapi",price:3500}
+  ]},
+  {group:"Sayuran & Lainnya",items:[
+    {name:"Kol",price:1500},{name:"Sawi Hijau",price:1500},
+    {name:"Daun Bawang",price:1000},{name:"Jamur Kuping",price:2000},{name:"Tahu Pong",price:2000}
+  ]},
+  {group:"Karbohidrat Tambahan",items:[
+    {name:"Mie Kuning",price:2000},{name:"Bihun",price:2000},
+    {name:"Makaroni",price:2000},{name:"Kerupuk Extra",price:1500},{name:"Lontong",price:2500}
+  ]},
+  {group:"Topping Spesial",items:[
+    {name:"Keju Slice",price:5000},{name:"Kuah Extra Kental",price:2000},
+    {name:"Cabe Rawit Extra",price:1000},{name:"Kuning Telur Asin",price:6000}
+  ]},
+];
+
+let selectedToppings = new Set();
+let currentFilter = 'semua';
+
+function renderMenu() {
+  const grid = document.getElementById('menuGrid');
+  const filtered = currentFilter === 'semua' ? menuItems : menuItems.filter(i => i.cat === currentFilter);
+  grid.innerHTML = filtered.map(item => `
+    <div class="menu-card">
+      <div class="menu-card-img">${item.icon}</div>
+      <div class="menu-card-body">
+        <h3>${item.name}</h3>
+        <p>${item.desc}</p>
+        <div class="menu-card-footer">
+          <span class="menu-price">Rp ${item.price.toLocaleString('id-ID')}</span>
+          ${item.badge ? `<span class="menu-badge badge-${item.badge}">${item.badgeText}</span>` : ''}
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function filterMenu(cat, btn) {
+  currentFilter = cat;
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderMenu();
+}
+
+function renderToppings() {
+  const container = document.getElementById('toppingGroups');
+  container.innerHTML = toppingData.map(group => `
+    <div class="topping-group">
+      <h4>${group.group}</h4>
+      <div class="topping-list">
+        ${group.items.map(t => `
+          <span class="topping-chip" onclick="toggleTopping(this, '${t.name}', ${t.price})">
+            ${t.name} <small style="opacity:0.6">+Rp ${Math.round(t.price/1000)}rb</small>
+          </span>
+        `).join('')}
+      </div>
+    </div>
+  `).join('');
+}
+
+function toggleTopping(el, name, price) {
+  if (selectedToppings.has(name)) { selectedToppings.delete(name); el.classList.remove('selected'); }
+  else { selectedToppings.add(name); el.classList.add('selected'); }
+  updateSummary();
+}
+
+function updateSummary() {
+  const BASE_PRICE = 15000;
+  const chosenEl = document.getElementById('chosenToppings');
+  const totalEl = document.getElementById('totalPrice');
+  const levelEl = document.getElementById('levelDisplay');
+  const levelVal = document.getElementById('levelSelect').value;
+  if (levelVal) {
+    const labels = {'1':'😊 Level 1','2':'😏 Level 2','3':'🥵 Level 3','4':'😤 Level 4','5':'💀 Level 5'};
+    levelEl.querySelector('strong').textContent = labels[levelVal];
+  }
+  if (selectedToppings.size === 0) {
+    chosenEl.innerHTML = '<span class="order-empty">Belum ada topping dipilih</span>';
+  } else {
+    chosenEl.innerHTML = [...selectedToppings].map(n => `<span class="order-topping-tag">${n}</span>`).join('');
+  }
+  let total = BASE_PRICE;
+  toppingData.forEach(g => g.items.forEach(t => { if (selectedToppings.has(t.name)) total += t.price; }));
+  totalEl.textContent = 'Rp ' + total.toLocaleString('id-ID');
+}
+
+let currentMethod = 'dinein';
+
+function setMethod(method, btn) {
+  currentMethod = method;
+  document.querySelectorAll('.method-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.querySelectorAll('.method-extra').forEach(el => el.classList.remove('visible'));
+  document.getElementById('extra-' + method).classList.add('visible');
+}
+
+function sendOrder() {
+  const level = document.getElementById('levelSelect').value;
+  if (!level) { alert('Pilih level pedas dulu ya!'); return; }
+  if (selectedToppings.size === 0) { alert('Comot topping dulu dong! Minimal 1 topping.'); return; }
+  const toppingList = [...selectedToppings].join(', ');
+  const total = document.getElementById('totalPrice').textContent;
+
+  let methodLine = '';
+  if (currentMethod === 'dinein') {
+    const meja = document.getElementById('dinein-meja').value || '(belum dipilih)';
+    const orang = document.getElementById('dinein-orang').value || '?';
+    if (!document.getElementById('dinein-meja').value) { alert('Pilih nomor meja dulu ya!'); return; }
+    methodLine = `- Cara: Dine In%0A- Meja: ${meja}%0A- Jumlah orang: ${orang}`;
+  } else if (currentMethod === 'delivery') {
+    const nama = document.getElementById('delivery-nama').value.trim();
+    const hp = document.getElementById('delivery-hp').value.trim();
+    const alamat = document.getElementById('delivery-alamat').value.trim();
+    if (!nama || !hp || !alamat) { alert('Lengkapi nama, nomor HP, dan alamat pengiriman dulu ya!'); return; }
+    methodLine = `- Cara: Delivery Order%0A- Nama: ${nama}%0A- HP: ${hp}%0A- Alamat: ${alamat}`;
+  } else {
+    const nama = document.getElementById('takeaway-nama').value.trim();
+    const hp = document.getElementById('takeaway-hp').value.trim();
+    const waktu = document.getElementById('takeaway-waktu').value || '(belum dipilih)';
+    if (!nama || !hp) { alert('Lengkapi nama dan nomor HP dulu ya!'); return; }
+    methodLine = `- Cara: Take Away%0A- Nama: ${nama}%0A- HP: ${hp}%0A- Waktu ambil: ${waktu}`;
+  }
+
+  const msg = `Halo Seblak Nyelekit! 🌶%0A%0ASaya mau pesan:%0A- Base: Kerupuk Basah%0A- Level Pedas: ${level}%0A- Topping: ${toppingList}%0A${methodLine}%0A%0AEstimasi: ${total}%0A%0ATolong diproses ya, terima kasih!`;
+  window.open(`https://wa.me/6281234567890?text=${msg}`, '_blank');
+}
+
+document.getElementById('levelSelect').addEventListener('change', updateSummary);
+
+function submitPromo() {
+  const val = document.getElementById('promoInput').value.trim();
+  if (!val) return;
+  const msg = document.getElementById('promoMsg');
+  msg.style.display = 'block';
+  msg.textContent = `✅ Nomor ${val} berhasil didaftarkan! Promo eksklusif akan segera dikirim via WhatsApp.`;
+  document.getElementById('promoInput').value = '';
+}
+
+renderMenu();
+renderToppings();
+</script>
+</body>
+</html>
